@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Album Collection - Add Album</title>
+</head>
+
+<body>
+    <h1>ADD NEW ALBUM</h1>
+    <form action="/albums" method="post">
+        <input type="text" name="name" placeholder="album name">
+        <input type="text" name="artist" placeholder="artist name">
+        <input type="number" min="1925" max="2017" name="releaseDate" placeholder="year">
+        <input type="text" name="label" placeholder="record label">
+        <input type="radio" name="genre" value="alternative">Alternative
+        <input type="radio" name="genre" value="blues">Blues
+        <input type="radio" name="genre" value="classical">Classical
+        <input type="radio" name="genre" value="country">Country
+        <input type="radio" name="genre" value="electronic">Electronic
+        <input type="radio" name="genre" value="hip-hop">Hip-Hop
+        <input type="radio" name="genre" value="instrumental">Instrumental
+        <input type="radio" name="genre" value="jazz">Jazz
+        <input type="radio" name="genre" value="metal">Metal
+        <input type="radio" name="genre" value="pop">Pop
+        <input type="radio" name="genre" value="r_n_b">R&B
+        <input type="radio" name="genre" value="rap">Rap
+        <input type="radio" name="genre" value="rock">Rock
+        <input type="radio" name="genre" value="spoken_word">Spoken Word
+        <input type="radio" name="genre" value="other" checked>Other
+        <label for="tracks">Number of Tracks</label>
+        <input type="number" min="1" max="50" name="trackCount" id="tracks">
+        <h5>Favorite Tracks</h5>
+        <label for="">Track #</label>
+        <input type="number" min="1" max="50" name="favorites">
+        <label for="">Title</label>
+        <input type="text" name="favorites">
+        <label for="">Track #</label>
+        <input type="number" min="1" max="50" name="favorites">
+        <label for="">Title</label>
+        <input type="text" name="favorites">
+        <label for="">Track #</label>
+        <input type="number" min="1" max="50" name="favorites">
+        <label for="">Title</label>
+        <input type="text" name="favorites">
+        <button type="submit">Add Album</button>
+    </form>
+</body>
+
+</html>

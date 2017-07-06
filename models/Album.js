@@ -23,7 +23,7 @@ var albumSchema = new Schema({
       "country",
       "rap",
       "hip-hop",
-      "r&b",
+      "r_n_b",
       "classical",
       "metal",
       "alternative",
@@ -31,16 +31,16 @@ var albumSchema = new Schema({
       "jazz",
       "blues",
       "instrumental",
-      "spoken word",
-      "unknown"
+      "spoken_word",
+      "other"
     ],
-    default: "unknown"
+    default: "other"
   },
-  tracks: [
+  trackCount: Number,
+  favorites: [
     {
-      title: String,
-      length: Number,
-      single: Boolean
+      track: Number,
+      title: String
     }
   ]
 });
