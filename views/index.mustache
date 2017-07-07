@@ -10,8 +10,22 @@
 </head>
 
 <body>
-    <h1>INDEX</h1>
+    <h1>My Album Collection</h1>
     <a href="/albums/add">Add an album to the collection</a>
+    {{#albums}}
+      <a href="/albums/{{_id}}">
+        <div class="album">
+          <h3>{{name}}</h3>
+          <h4>{{artist}}</h4>
+          <form action="/albums/{{_id}}/edit" method="get">
+            <button type="submit">Edit</button>
+          </form>
+          <form action="/albums/{{_id}}/delete" method="get">
+            <button type="submit">Delete</button>
+          </form>
+        </div>
+      </a>
+    {{/albums}}
 </body>
 
 </html>

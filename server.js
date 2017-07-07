@@ -31,44 +31,106 @@ mongoose.connect(dbUrl).then((error, db) => {
 
 //ROUTES
 app.get("/albums", (req, res) => {
-  res.render("index");
-});
-
-app.get("/albums/add", (req, res) => {
-  res.render("add");
-});
-
-app.get("/albums/:id", (req, res) => {});
-
-app.post("/albums", (req, res) => {
-  let albumData = req.body;
-  let favorites = albumData.favorites.reduce((items, item) => items + item);
-  // if any favorites, parse to model format
-  if (favorites) {
-    let formattedFavs = [];
-    for (let i = 0; i < albumData.favorites.length; i++) {
-      let favsObj = {};
-      favsObj.track = albumData.favorites[i++];
-      favsObj.title = albumData.favorites[i];
-      formattedFavs.push(favsObj);
-    }
-    albumData.favorites = formattedFavs;
-  }
-  // res.send(albumData);
-  let newAlbum = new Album(albumData);
-  newAlbum
-    .save()
-    .then(addedAlbum => {
-      res.send(addedAlbum);
+  Album.find()
+    .then(foundAlbums => {
+      res.render("index", { albums: foundAlbums });
     })
     .catch(error => {
       res.status(500).send(error);
     });
 });
 
-app.put("/albums/:id", (req, res) => {});
+app.post("/albums", (req, res) => {
+  var albumData = req.body;
+  var formattedFavs = [];
+  let favorites = albumData.favorites.reduce((items, item) => items + item);
+  // if any favorites, parse to model format
+  if (favorites) {
+    for (let i = 0; i < albumData.favorites.length; i++) {
+      if (albumData.favorites[i]) {
+        let favsObj = {};
+        favsObj.track = albumData.favorites[i++];
+        favsObj.title = albumData.favorites[i];
+        formattedFavs.push(favsObj);
+      } else {
+        i++;
+      }
+    }
+  }
+  albumData.favorites = formattedFavs;
 
-app.delete("/album/:id", (req, res) => {});
+  let newAlbum = new Album(albumData);
+  newAlbum
+    .save()
+    .then(addedAlbum => {
+      res.redirect("/albums");
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/albums/add", (req, res) => {
+  res.render("add");
+});
+
+app.get("/albums/:id", (req, res) => {
+  Album.findById(req.params.id)
+    .then(foundAlbum => {
+      res.render("album", { album: foundAlbum });
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    });
+});
+
+app.post("/albums/:id", (req, res) => {
+  var albumData = req.body;
+  var formattedFavs = [];
+  let favorites = albumData.favorites.reduce((items, item) => items + item);
+  // if any favorites, parse to model format
+  if (favorites) {
+    for (let i = 0; i < albumData.favorites.length; i++) {
+      if (albumData.favorites[i]) {
+        let favsObj = {};
+        favsObj.track = albumData.favorites[i++];
+        favsObj.title = albumData.favorites[i];
+        formattedFavs.push(favsObj);
+      } else {
+        i++;
+      }
+    }
+  }
+  albumData.favorites = formattedFavs;
+
+  Album.updateOne({ _id: req.params.id }, albumData)
+    .then(() => {
+      res.redirect(`/albums/${req.params.id}`);
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/albums/:id/edit", (req, res) => {
+  Album.findById(req.params.id)
+    .then(foundAlbum => {
+      res.render("edit", { album: foundAlbum });
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/albums/:id/delete", (req, res) => {
+  Album.deleteOne({ _id: req.params.id })
+    .then(() => {
+      res.render("delete");
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    });
+});
 
 app.listen(port, () => {
   console.log(`Spinning with express: Port ${port}`);
